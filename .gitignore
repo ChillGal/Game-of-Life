@@ -14,4 +14,9 @@ cmake-build-*/
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
 
+.idea/**/discord.xml
+.idea/**/misc.xml
+.idea/**/modules.xml
+.idea/**/vcs.xml
+
 .idea/**/httpRequests/
