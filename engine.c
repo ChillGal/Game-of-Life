@@ -3,11 +3,11 @@
 #include <stdio.h>
 #include "engine.h"
 
-//Variables
+//Global Variables
 int GRIDSIZEX = 160; //Grid X size
 int GRIDSIZEY = 90; //Grid Y size
 int ITERATETIME = 10; //Time between iterations in ms
-bool pause = false; //Pause state
+bool PAUSE = false; //Pause state
 struct grid G; //Main grid
 struct grid G1; //Next step grid
 
@@ -47,10 +47,18 @@ void cleanup_memory() {
 
 //Setup the game engine
 void initialise_engine() {
-    pause = false; //Initial state is not paused
+    PAUSE = false; //Initial state is not paused
     G.sizeX = G1.sizeX = GRIDSIZEX - 1; //Grid X size
     G.sizeY = G1.sizeY = GRIDSIZEY - 1; //Grid Y size
     initialise_grid(&G.cell, G.sizeX, G.sizeY);
     initialise_grid(&G1.cell, G1.sizeX, G1.sizeY);
     //TODO Initialise display function
+}
+
+//Setup static environment
+void initialise_static_environment() {
+    G.sizeX = G1.sizeX = GRIDSIZEX - 1; //Grid X size
+    G.sizeY = G1.sizeY = GRIDSIZEY - 1; //Grid Y size
+    initialise_grid(&G.cell,G.sizeX, G.sizeY);
+    //TODO Call Display Function
 }

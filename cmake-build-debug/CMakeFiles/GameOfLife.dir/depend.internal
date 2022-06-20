@@ -7,6 +7,11 @@ CMakeFiles/GameOfLife.dir/display.c.obj
 CMakeFiles/GameOfLife.dir/engine.c.obj
  C:/Users/gchan/Documents/CLion/GameOfLife/engine.c
  C:/Users/gchan/Documents/CLion/GameOfLife/engine.h
+CMakeFiles/GameOfLife.dir/file.c.obj
+ C:/Users/gchan/Documents/CLion/GameOfLife/engine.h
+ C:/Users/gchan/Documents/CLion/GameOfLife/file.c
+ C:/Users/gchan/Documents/CLion/GameOfLife/file.h
 CMakeFiles/GameOfLife.dir/main.c.obj
  C:/Users/gchan/Documents/CLion/GameOfLife/engine.h
+ C:/Users/gchan/Documents/CLion/GameOfLife/file.h
  C:/Users/gchan/Documents/CLion/GameOfLife/main.c

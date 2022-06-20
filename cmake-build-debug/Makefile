@@ -196,6 +196,33 @@ engine.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\GameOfLife.dir\build.make CMakeFiles/GameOfLife.dir/engine.c.s
 .PHONY : engine.c.s
 
+file.obj: file.c.obj
+
+.PHONY : file.obj
+
+# target to build an object file
+file.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\GameOfLife.dir\build.make CMakeFiles/GameOfLife.dir/file.c.obj
+.PHONY : file.c.obj
+
+file.i: file.c.i
+
+.PHONY : file.i
+
+# target to preprocess a source file
+file.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\GameOfLife.dir\build.make CMakeFiles/GameOfLife.dir/file.c.i
+.PHONY : file.c.i
+
+file.s: file.c.s
+
+.PHONY : file.s
+
+# target to generate assembly for a file
+file.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\GameOfLife.dir\build.make CMakeFiles/GameOfLife.dir/file.c.s
+.PHONY : file.c.s
+
 main.obj: main.c.obj
 
 .PHONY : main.obj
@@ -238,6 +265,9 @@ help:
 	@echo ... engine.obj
 	@echo ... engine.i
 	@echo ... engine.s
+	@echo ... file.obj
+	@echo ... file.i
+	@echo ... file.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

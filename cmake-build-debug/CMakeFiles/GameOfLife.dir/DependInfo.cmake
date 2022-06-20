@@ -6,6 +6,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_C
   "C:/Users/gchan/Documents/CLion/GameOfLife/display.c" "C:/Users/gchan/Documents/CLion/GameOfLife/cmake-build-debug/CMakeFiles/GameOfLife.dir/display.c.obj"
   "C:/Users/gchan/Documents/CLion/GameOfLife/engine.c" "C:/Users/gchan/Documents/CLion/GameOfLife/cmake-build-debug/CMakeFiles/GameOfLife.dir/engine.c.obj"
+  "C:/Users/gchan/Documents/CLion/GameOfLife/file.c" "C:/Users/gchan/Documents/CLion/GameOfLife/cmake-build-debug/CMakeFiles/GameOfLife.dir/file.c.obj"
   "C:/Users/gchan/Documents/CLion/GameOfLife/main.c" "C:/Users/gchan/Documents/CLion/GameOfLife/cmake-build-debug/CMakeFiles/GameOfLife.dir/main.c.obj"
   )
 set(CMAKE_C_COMPILER_ID "GNU")

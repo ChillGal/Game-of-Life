@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/GameOfLife.dir/display.c.obj"
   "CMakeFiles/GameOfLife.dir/engine.c.obj"
+  "CMakeFiles/GameOfLife.dir/file.c.obj"
   "CMakeFiles/GameOfLife.dir/main.c.obj"
   "GameOfLife.exe"
   "GameOfLife.exe.manifest"

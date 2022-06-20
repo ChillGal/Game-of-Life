@@ -1,7 +1,9 @@
 #include <malloc.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 #include "engine.h"
+#include "file.h"
 
 /*
 ----Game Rules----
@@ -13,6 +15,7 @@
 int menu() { //Main menu
     printf("Conway's game of life in C\n");
     char *answer;
+    char pauseBool[6];
     int response;
     bool quit = false;
     //Menu loop
@@ -30,7 +33,7 @@ int menu() { //Main menu
                 break;
             case 2: //Change settings
                 answer = (char *) malloc(3 * sizeof(char));
-                printf("Which setting do you want to change?\n1. Grid Size\n2. Initial State\n3. File Location\n4. Iteration Speed\n5. Reset to default\n0. Back\n");
+                printf("Which setting do you want to change?\n1. Grid Size\n2. Initial State\n3. File Location\n4. Iteration Speed\n5. Reset to default\n6. Save settings\n7. Load settings\n8. List settings\n0. Back\n");
                 fflush(stdin);
                 response = atoi(fgets(answer, 3 * sizeof(char), stdin));
                 free(answer);
@@ -66,8 +69,28 @@ int menu() { //Main menu
                         GRIDSIZEX = 160;
                         GRIDSIZEY = 90;
                         ITERATETIME = 10;
-                        pause = false;
-                        printf("Parameters have been reset!");
+                        PAUSE = false;
+                        printf("Parameters have been reset!\n");
+                        break;
+                    case 6: //Save current settings
+                        save_settings();
+                        break;
+                    case 7: //Load settings from file
+                        load_settings();
+                        break;
+                    case 8: //List current settings
+                        if (PAUSE == 0) {
+                            strcpy(pauseBool, "false");
+                        }
+                        else {
+                            strcpy(pauseBool, "true");
+                        }
+                        printf("Current settings\n");
+                        printf("%-15s | %-10s\n", "Setting", "Value");
+                        printf("%-15s | %-10d\n", "Width", GRIDSIZEX);
+                        printf("%-15s | %-10d\n", "Height", GRIDSIZEY);
+                        printf("%-15s | %-10d\n", "Iteration time", ITERATETIME);
+                        printf("%-15s | %-10s\n", "Pause state", pauseBool);
                         break;
                 }
                 break;

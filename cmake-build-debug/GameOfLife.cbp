@@ -86,6 +86,12 @@
 		<Unit filename="C:/Users/gchan/Documents/CLion/GameOfLife/engine.h">
 			<Option target="GameOfLife"/>
 		</Unit>
+		<Unit filename="C:/Users/gchan/Documents/CLion/GameOfLife/file.c">
+			<Option target="GameOfLife"/>
+		</Unit>
+		<Unit filename="C:/Users/gchan/Documents/CLion/GameOfLife/file.h">
+			<Option target="GameOfLife"/>
+		</Unit>
 		<Unit filename="C:/Users/gchan/Documents/CLion/GameOfLife/main.c">
 			<Option target="GameOfLife"/>
 		</Unit>
