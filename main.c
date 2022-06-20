@@ -53,7 +53,7 @@ int menu() { //Main menu
                     case 2: //Change initial state
                         //TODO Call initial state function
                         printf("Loading static environment...");
-
+                        initialise_static_environment();
                         break;
                     case 3: //Change file location
                         //TODO Call change file location function
