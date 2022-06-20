@@ -1,7 +1,6 @@
 #include <malloc.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include "main.h"
 
 /*
 ----Game Rules----
@@ -10,7 +9,7 @@
  * All other live cells die in the next generation. Similarly, all other dead cells stay dead.
  */
 
-int menu() {
+int menu() { //Main menu
     printf("Conway's game of life in C");
     char *answer;
     int response;
@@ -38,7 +37,14 @@ int menu() {
                     case 0: //Go back
                         break;
                     case 1: //Change grid size
-                        //Call change grid size function
+                        printf("Current grid is x = %d and y = %d. \n", GRIDSIZEX,GRIDSIZEY); //Display current grid size
+                        printf("Enter new grid X size:"); //Get new X size
+                        fflush(stdin);
+                        scanf("%d", &GRIDSIZEX);
+                        printf("Enter new grid Y size:"); //Get new Y size
+                        fflush(stdin);
+                        scanf("%d", &GRIDSIZEY);
+                        printf("The new X size is : %d and the new Y size is : %d. \n\n", GRIDSIZEX, GRIDSIZEY); //Display new grid size
                         break;
                     case 2: //Change initial state
                         //Call initial state function

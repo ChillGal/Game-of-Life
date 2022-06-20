@@ -6,6 +6,18 @@
 
 #IncludeRegexTransform: 
 
+C:/Users/gchan/Documents/CLion/GameOfLife/engine.c
+malloc.h
+-
+stdbool.h
+-
+stdio.h
+-
+engine.h
+C:/Users/gchan/Documents/CLion/GameOfLife/engine.h
+
+C:/Users/gchan/Documents/CLion/GameOfLife/engine.h
+
 C:/Users/gchan/Documents/CLion/GameOfLife/main.c
 malloc.h
 -
@@ -13,8 +25,4 @@ stdio.h
 -
 stdbool.h
 -
-main.h
-C:/Users/gchan/Documents/CLion/GameOfLife/main.h
-
-C:/Users/gchan/Documents/CLion/GameOfLife/main.h
 
