@@ -8,6 +8,7 @@ The basic rules are:
 - All other live cells die in the next generation. Similarly, all other dead cells stay dead.
 
 This was originally a task for a coursework but i have rewritten the code with extra functionality.
+
 Extra functionality added:
 - Saving and loading settings
 - Listing current settings
