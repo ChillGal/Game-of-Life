@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/gchan/Documents/CLion/GameOfLife/engine.h
+
+C:/Users/gchan/Documents/CLion/GameOfLife/file.h
+
+C:/Users/gchan/Documents/CLion/GameOfLife/main.c
+malloc.h
+-
+stdio.h
+-
+stdbool.h
+-
+string.h
+-
+engine.h
+C:/Users/gchan/Documents/CLion/GameOfLife/engine.h
+file.h
+C:/Users/gchan/Documents/CLion/GameOfLife/file.h
+
