@@ -11,7 +11,7 @@
  */
 
 int menu() { //Main menu
-    printf("Conway's game of life in C");
+    printf("Conway's game of life in C\n");
     char *answer;
     int response;
     bool quit = false;
@@ -30,7 +30,7 @@ int menu() { //Main menu
                 break;
             case 2: //Change settings
                 answer = (char *) malloc(3 * sizeof(char));
-                printf("Which setting do you want to change?\n1. Grid Size\n2. Initial State\n3. File Location\n4. Iteration Speed\n0. Back\n");
+                printf("Which setting do you want to change?\n1. Grid Size\n2. Initial State\n3. File Location\n4. Iteration Speed\n5. Reset to default\n0. Back\n");
                 fflush(stdin);
                 response = atoi(fgets(answer, 3 * sizeof(char), stdin));
                 free(answer);
@@ -49,6 +49,8 @@ int menu() { //Main menu
                         break;
                     case 2: //Change initial state
                         //TODO Call initial state function
+                        printf("Loading static environment...");
+
                         break;
                     case 3: //Change file location
                         //TODO Call change file location function
@@ -59,6 +61,13 @@ int menu() { //Main menu
                         fflush(stdin);
                         scanf("%d",&ITERATETIME);
                         printf("The new iteration speed = %d ms.\n",ITERATETIME);
+                        break;
+                    case 5: //Reset to default parameters
+                        GRIDSIZEX = 160;
+                        GRIDSIZEY = 90;
+                        ITERATETIME = 10;
+                        pause = false;
+                        printf("Parameters have been reset!");
                         break;
                 }
                 break;
