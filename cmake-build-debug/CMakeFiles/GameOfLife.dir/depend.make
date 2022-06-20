@@ -4,5 +4,6 @@
 CMakeFiles/GameOfLife.dir/engine.c.obj: ../engine.c
 CMakeFiles/GameOfLife.dir/engine.c.obj: ../engine.h
 
+CMakeFiles/GameOfLife.dir/main.c.obj: ../engine.h
 CMakeFiles/GameOfLife.dir/main.c.obj: ../main.c
 

@@ -74,6 +74,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/gchan/Documents/CLion/GameOfLife/display.c">
+			<Option target="GameOfLife"/>
+		</Unit>
+		<Unit filename="C:/Users/gchan/Documents/CLion/GameOfLife/display.h">
+			<Option target="GameOfLife"/>
+		</Unit>
 		<Unit filename="C:/Users/gchan/Documents/CLion/GameOfLife/engine.c">
 			<Option target="GameOfLife"/>
 		</Unit>

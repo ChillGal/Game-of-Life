@@ -1,6 +1,7 @@
 #include <malloc.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include "engine.h"
 
 /*
 ----Game Rules----
@@ -47,13 +48,17 @@ int menu() { //Main menu
                         printf("The new X size is : %d and the new Y size is : %d. \n\n", GRIDSIZEX, GRIDSIZEY); //Display new grid size
                         break;
                     case 2: //Change initial state
-                        //Call initial state function
+                        //TODO Call initial state function
                         break;
                     case 3: //Change file location
-                        //Call change file location function
+                        //TODO Call change file location function
                         break;
                     case 4: //Change iteration speed
-                        //Call change iteration speed function
+                        printf("Current iteration speed = %d ms. \n", ITERATETIME); //Display iteration speed
+                        printf("Enter new iteration time:");
+                        fflush(stdin);
+                        scanf("%d",&ITERATETIME);
+                        printf("The new iteration speed = %d ms.\n",ITERATETIME);
                         break;
                 }
                 break;
