@@ -7,6 +7,14 @@
 #IncludeRegexTransform: 
 
 C:/Users/gchan/Documents/CLion/GameOfLife/main.c
+malloc.h
+-
 stdio.h
 -
+stdbool.h
+-
+main.h
+C:/Users/gchan/Documents/CLion/GameOfLife/main.h
+
+C:/Users/gchan/Documents/CLion/GameOfLife/main.h
 

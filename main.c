@@ -1,10 +1,67 @@
+#include <malloc.h>
 #include <stdio.h>
+#include <stdbool.h>
+#include "main.h"
 
-//Any live cell with two or three live neighbours survives.
-//Any dead cell with three live neighbours becomes a live cell.
-//All other live cells die in the next generation. Similarly, all other dead cells stay dead.
+/*
+----Game Rules----
+ * Any live cell with two or three live neighbours survives.
+ * Any dead cell with three live neighbours becomes a live cell.
+ * All other live cells die in the next generation. Similarly, all other dead cells stay dead.
+ */
+
+int menu() {
+    printf("Conway's game of life in C");
+    char *answer;
+    int response;
+    bool quit = false;
+    //Menu loop
+    do {
+        answer = (char *) malloc(3*sizeof(char)); //Allocate 3 chars of memory to pointer
+        printf("Select an option\n1. Start\n2. Modify config\n3. Quit\n");
+        fflush(stdin); //Clear input buffer
+        response = atoi(fgets(answer, 3 * sizeof(char), stdin)); //Get int from input
+        free(answer); //Release memory allocated to pointer
+        switch(response) {
+            case 1: //Start with default settings
+                printf("Starting...\n");
+                //Call initialise game function
+                printf("Finished.\n");
+                break;
+            case 2: //Change settings
+                answer = (char *) malloc(3 * sizeof(char));
+                printf("Which setting do you want to change?\n1. Grid Size\n2. Initial State\n3. File Location\n4. Iteration Speed\n0. Back\n");
+                fflush(stdin);
+                response = atoi(fgets(answer, 3 * sizeof(char), stdin));
+                free(answer);
+                switch (response) {
+                    case 0: //Go back
+                        break;
+                    case 1: //Change grid size
+                        //Call change grid size function
+                        break;
+                    case 2: //Change initial state
+                        //Call initial state function
+                        break;
+                    case 3: //Change file location
+                        //Call change file location function
+                        break;
+                    case 4: //Change iteration speed
+                        //Call change iteration speed function
+                        break;
+                }
+                break;
+            case 3: //Quit
+                quit = true;
+                break;
+            default:
+                printf("Not a valid option. \n");
+        }
+    }while(!quit);
+    return 0;
+}
 
 int main() {
-    printf("Hello, World!\n");
+    menu();
     return 0;
 }
