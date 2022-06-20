@@ -50,7 +50,6 @@ int save_settings() {
     fptr = fopen(fileName,"r");
     read_settings();
     fclose(fptr);
-    free(fileName);
     // Convert boolean to string
     if (PAUSE == 0){
         strcpy(pauseBool, "false");
