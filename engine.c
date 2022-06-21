@@ -52,7 +52,8 @@ void initialise_engine() {
     G.sizeY = G1.sizeY = GRIDSIZEY - 1; //Grid Y size
     initialise_grid(&G.cell, G.sizeX, G.sizeY);
     initialise_grid(&G1.cell, G1.sizeX, G1.sizeY);
-    //TODO Initialise display function
+    //TODO Call display function
+    cleanup_memory(); //Cleanup allocated memory after display exited
 }
 
 //Setup static environment
@@ -60,5 +61,5 @@ void initialise_static_environment() {
     G.sizeX = G1.sizeX = GRIDSIZEX - 1; //Grid X size
     G.sizeY = G1.sizeY = GRIDSIZEY - 1; //Grid Y size
     initialise_grid(&G.cell,G.sizeX, G.sizeY);
-    //TODO Call Display Function
+    //TODO Call display function
 }

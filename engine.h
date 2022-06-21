@@ -14,7 +14,7 @@ int sizeX, sizeY; //Size of X and Y
 
 int initialise_grid(); //Setup grid
 //void destroy_grid(int ***cell); //Grid cleanup
-//void cleanup_memory(); //Memory cleanup
+void cleanup_memory(); //Memory cleanup
 void initialise_engine(); //Setup engine
 void iterate_grid(int ***cell, int ***iteratedCell); //Calculate next iteration
 void initialise_static_environment(); //Setup static environment

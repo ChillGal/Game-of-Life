@@ -92,6 +92,8 @@ int menu() { //Main menu
                         printf("%-15s | %-10d\n", "Iteration time", ITERATETIME);
                         printf("%-15s | %-10s\n", "Pause state", pauseBool);
                         break;
+                    default:
+                        printf("Not a valid option. \n");
                 }
                 break;
             case 3: //Quit
