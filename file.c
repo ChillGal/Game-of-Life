@@ -146,3 +146,12 @@ int load_settings() {
     free(response); //Cleanup memory
     return 1;
 }
+
+//TODO Save game state
+int save_game() {
+    return -99;
+}
+//TODO Load game state
+int load_game() {
+    return -99;
+}
