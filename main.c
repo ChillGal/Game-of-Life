@@ -28,7 +28,8 @@ int menu() { //Main menu
         switch(response) {
             case 1: //Start with default settings
                 printf("Starting...\n");
-                //Call initialise game function
+                //TODO Call initialise game function
+                initialise_engine();
                 printf("Finished.\n");
                 break;
             case 2: //Change settings

@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include "engine.h"
+#include "display.h"
 
 //Global Variables
 int GRIDSIZEX = 160; //Grid X size
@@ -13,22 +14,23 @@ struct grid G1; //Next step grid
 
 //Create grid using 2D array using pointers
 int initialise_grid(int ***cell, int SizeX, int SizeY) {
-    *cell = malloc(sizeof(int)* SizeX); //Allocate memory to vertical columns
-    if (*cell == NULL) { //Check that memory has been allocated
+
+    *cell = malloc(sizeof(int) * SizeX); //Allocate memory to vertical columns
+    if ((*cell) == NULL) { //Check that memory has been allocated
         printf("Error occurred allocating memory to vertical columns.\n");
         return 1;
     }
-    for (int i=0; i<SizeX; i++){
-        *cell[i] = malloc(sizeof(int) * SizeY); //Allocate memory to horizontal rows
+    for (int i = 0; i < SizeX; i++){
+        (*cell)[i] = malloc(sizeof(int) * SizeY); //Allocate memory to horizontal rows
         if ((*cell)[i] == NULL){
             printf("Error occurred allocating memory to horizontal rows.\n");
             return 1;
         }
     }
     //Fill grid with 0's
-    for (int i = 0; i < SizeX; i++){
-        for (int j =0; j < SizeY; j++) {
-            *cell[i][j] = 0;
+    for (int x = 0; x < SizeX; x++){
+        for (int y = 0; y < SizeY; y++) {
+            (*cell)[x][y] = 0;
         }
     }
     return 0;
@@ -56,7 +58,7 @@ int edge_check_neighbours(int i, int j, int ***cell) {
     if (i == 0) {
         //Left corner checks
         if (j == 0) { //Top left corner
-            if ((*cell[GRIDSIZEX - 1][GRIDSIZEY - 1] == 1) || (*cell[i][GRIDSIZEY - 1] == 1) || (*cell[i + 1][j - 1] == 1)) { //Top row
+            if ((*cell[G.sizeX - 1][G.sizeY - 1] == 1) || (*cell[i][GRIDSIZEY - 1] == 1) || (*cell[i + 1][j - 1] == 1)) { //Top row
                 neighbourCount++;
             }
             if ((*cell[GRIDSIZEX - 1][j] == 1) || (*cell[i][j] == 1) || (*cell[i + 1][j + 1] == 1)) { //Middle row
@@ -161,13 +163,13 @@ int edge_check_neighbours(int i, int j, int ***cell) {
     return neighbourCount;
 }
 
-//Set the cell value
+//Set the cell value according to the rules
 void set_cell(int i,int j, int ***cell,int ***iteratedCell,int neighbours) {
     if ((neighbours == 2 || neighbours == 3) && *cell[i][j] == 1) { //Any live cell with two or three live neighbours survives
-        *iteratedCell[i][j] = 1; //Set the cell state for the iteration
+        (*iteratedCell)[i][j] = 1; //Set the cell state for the iteration
     }
     if (neighbours == 3 && *cell[i][j] == 0) { //Any dead cell with three live neighbours becomes a live cell
-        *iteratedCell[i][j] = 1;
+        (*iteratedCell)[i][j] = 1;
     }
     //Default cell state is dead so no need to set them in the iterated grid
 }
@@ -203,12 +205,12 @@ void cleanup_memory() {
 //Setup the game engine
 void initialise_engine() {
     PAUSE = false; //Initial state is not paused
-    G.sizeX = G1.sizeX = GRIDSIZEX - 1; //Grid X size
-    G.sizeY = G1.sizeY = GRIDSIZEY - 1; //Grid Y size
+    G.sizeX = G1.sizeX = (GRIDSIZEX - 1); //Grid X size starting from 0
+    G.sizeY = G1.sizeY = (GRIDSIZEY - 1); //Grid Y size starting from 0
     initialise_grid(&G.cell, G.sizeX, G.sizeY);
     initialise_grid(&G1.cell, G1.sizeX, G1.sizeY);
-    //TODO Call display function
-    cleanup_memory(); //Cleanup allocated memory after display exited
+    initialise_display(&G.cell);
+    //cleanup_memory(); //Cleanup allocated memory after display exited
 }
 
 //Setup static environment
@@ -216,5 +218,5 @@ void initialise_static_environment() {
     G.sizeX = G1.sizeX = GRIDSIZEX - 1; //Grid X size
     G.sizeY = G1.sizeY = GRIDSIZEY - 1; //Grid Y size
     initialise_grid(&G.cell,G.sizeX, G.sizeY);
-    //TODO Call display function
+    initialise_display(&G.cell);
 }

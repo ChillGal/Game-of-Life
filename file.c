@@ -2,8 +2,9 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
-#include "file.h"
 #include "engine.h"
+#include "file.h"
+
 
 FILE *fptr;
 int NEWGRIDSIZEX, NEWGRIDSIZEY, NEWITERATETIME;
