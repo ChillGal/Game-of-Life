@@ -29,6 +29,7 @@ void display_grid() {
     for (int y = 0; y < ((GRIDSIZEY * CELL_SIZE) + 1); y += CELL_SIZE){ //Creates the vertical grid lines
         SDL_RenderDrawLine(Dp.renderer,0,y,Dp.W, y);
     }
+    SDL_RaiseWindow(Dp.window);
 }
 
 //Show live cells on grid
@@ -57,7 +58,7 @@ void update_display(int ***cell) {
     int mouseX, mouseY;
     while(Dp.running) {
         if (!PAUSE){
-            //iterate_grid(&G.cell, &G1.cell);
+            iterate_grid(&G.cell, &G1.cell);
         }
         display_live_cells(&G.cell); //Creates live cells from the grid G.cell
         //Event detection
