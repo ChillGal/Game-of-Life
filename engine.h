@@ -8,11 +8,11 @@ extern struct grid G;
 extern struct grid G1;
 
 struct grid { //Grid structure
-int **cell; //Pointer to grid cells
-int sizeX, sizeY; //Size of X and Y
+    int **cell; //Pointer to grid cells
+    int sizeX, sizeY; //Size of X and Y
 };
 
-int initialise_grid(); //Setup grid
+int initialise_grid(int ***cell, int SizeX, int SizeY); //Setup grid
 //void destroy_grid(int ***cell); //Grid cleanup
 void cleanup_memory(); //Memory cleanup
 void initialise_engine(); //Setup engine

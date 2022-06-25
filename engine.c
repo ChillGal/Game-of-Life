@@ -7,6 +7,8 @@
 //Global Variables
 int GRIDSIZEX = 160; //Grid X size
 int GRIDSIZEY = 90; //Grid Y size
+int maxX = 159;
+int maxY = 89;
 int ITERATETIME = 10; //Time between iterations in ms
 bool PAUSE = false; //Pause state
 struct grid G; //Main grid
@@ -14,15 +16,16 @@ struct grid G1; //Next step grid
 
 //Create grid using 2D array using pointers
 int initialise_grid(int ***cell, int SizeX, int SizeY) {
-
-    *cell = malloc(sizeof(int) * SizeX); //Allocate memory to vertical columns
+    *cell = (int **)malloc(sizeof(int *) * SizeX); //Allocate memory to vertical columns
     if ((*cell) == NULL) { //Check that memory has been allocated
         printf("Error occurred allocating memory to vertical columns.\n");
         return 1;
     }
-    for (int i = 0; i < SizeX; i++){
-        (*cell)[i] = malloc(sizeof(int) * SizeY); //Allocate memory to horizontal rows
+    for (int i = 0; i < SizeX; i++) {
+        (*cell)[i] = (int *)malloc(sizeof(int) * SizeY); //Allocate memory to horizontal rows
         if ((*cell)[i] == NULL){
+            printf("FAIL %d\n", i);
+            free(cell);
             printf("Error occurred allocating memory to horizontal rows.\n");
             return 1;
         }
@@ -31,7 +34,7 @@ int initialise_grid(int ***cell, int SizeX, int SizeY) {
     for (int x = 0; x < SizeX; x++){
         for (int y = 0; y < SizeY; y++) {
             (*cell)[x][y] = 0;
-            //printf("X = %d, Y = %d\n", x,y);
+            //printf("%d,%d, %d \n",x,y, *cell[x][0]);
         }
     }
     return 0;
@@ -40,8 +43,8 @@ int initialise_grid(int ***cell, int SizeX, int SizeY) {
 //Check number of neighbours around a given cell excluding the edges of the grid
 int check_neighbours(int i, int j,int ***cell) {
     int neighbourCount = 0;
-    for (int x = -1; x < 2; x++) { //Counting live neighbours around cell coordinate
-        for (int y = -1; y < 2; y++) {
+    for (int x = -1; x < 1; x++) { //Counting live neighbours around cell coordinate
+        for (int y = -1; y < 1; y++) {
             if ((*cell)[j + y][i + x] == 1) {
                 neighbourCount++;
             }
@@ -56,146 +59,177 @@ int check_neighbours(int i, int j,int ***cell) {
 //Check the edges of the grid with toroidal shape (donut shape)
 int edge_check_neighbours(int i, int j, int ***cell) {
     int neighbourCount = 0;
-    //TODO FIX EDGE CHECKS
     //Corner checks
-    if (i == 0 && j == 0) {  //Left Corner check
-        printf("%d %d\n",GRIDSIZEX -1, GRIDSIZEY -1);
-        printf("%d\n",*cell[88][158]);
-        if ((*cell)[GRIDSIZEX - 1][GRIDSIZEY - 1] == 1) { //Top left
+    if (i == 0 && j == 0) { //Top left corner
+        if ((*cell)[maxX][maxY] == 1) { //Top left
             neighbourCount++;
         }
-        if ((*cell)[i][GRIDSIZEY - 1] == 1) { //Top middle
+        if ((*cell)[0][maxY] == 1) { //Top middle
+            neighbourCount++;
+        }
+        if ((*cell)[1][maxY]) { //Top right
+            neighbourCount++;
+        }
+        if ((*cell)[maxX][0] == 1) { //Middle left
+            neighbourCount++;
+        }
+        if ((*cell)[0][0] == 1) { //Middle middle
+            neighbourCount++;
+        }
+        if ((*cell)[1][0] == 1) { //Middle middle
+            neighbourCount++;
+        }
+        if ((*cell)[maxX][1] == 1) { //Bottom left
+            neighbourCount++;
+        }
+        if ((*cell)[0][1] == 1) { //Bottom middle
+            neighbourCount++;
+        }
+        if ((*cell)[1][1] == 1) { //Bottom right
             neighbourCount++;
         }
     }
-    if (i == 0 && j == GRIDSIZEY - 1) { //Bottom left check
+    else if (i == 0 && j == maxY) { //Bottom left
+        if ((*cell)[maxX][maxY - 1] == 1) { //Top left
+            neighbourCount++;
+        }
+        if ((*cell)[0][maxY - 1] == 1) { //Top middle
+            neighbourCount++;
+        }
+        if ((*cell)[1][maxY - 1] == 1) { //Top right
+            neighbourCount++;
+        }
+        if ((*cell)[0][maxY] == 1) { //Middle left
+            neighbourCount++;
+        }
+        if ((*cell)[0][maxY] == 1) { //Middle middle
+            neighbourCount++;
+        }
+        if ((*cell)[1][maxY] == 1) { //Middle right
+            neighbourCount++;
+        }
+        if ((*cell)[maxX][0] == 1) { //Bottom left
+            neighbourCount++;
+        }
+        if ((*cell)[0][0] == 1) { //Bottom middle
+            neighbourCount++;
+        }
+        if ((*cell)[1][0] == 1) { //Bottom right
+            neighbourCount++;
+        }
+    }
+    else if (i == maxX && j == 0) { //Top right
+        if ((*cell)[maxX - 1][maxY] == 1) { //Top left
+            neighbourCount++;
+        }
+        if ((*cell)[maxX][maxY] == 1) { //Top middle
+            neighbourCount++;
+        }
+        if ((*cell)[0][maxY] == 1) { //Top right
+            neighbourCount++;
+        }
+        if ((*cell)[maxX - 1][0] == 1) { //Middle left
+            neighbourCount++;
+        }
+        if ((*cell)[maxX][0] == 1) { //Middle middle
+            neighbourCount++;
+        }
+        if ((*cell)[0][0] == 1) { //Middle right
+            neighbourCount++;
+        }
+        if ((*cell)[maxX - 1][1] == 1) { //Bottom left
+            neighbourCount++;
+        }
+        if ((*cell)[maxX][1] == 1) { //Bottom middle
+            neighbourCount++;
+        }
+        if ((*cell)[0][1] == 1) { //Bottom right
+            neighbourCount++;
+        }
+    }
+    else if (i == maxX && j == maxY) { //Bottom right
+        if ((*cell)[maxX - 1][maxY - 1] == 1) { //Top left
+            neighbourCount++;
+        }
+        if ((*cell)[maxX][maxY - 1] == 1) { //Top middle
+            neighbourCount++;
+        }
+        if ((*cell)[0][maxY - 1] == 1) { //Top right
+            neighbourCount++;
+        }
+        if ((*cell)[maxX - 1][maxY] == 1) { //Middle left
+            neighbourCount++;
+        }
+        if ((*cell)[maxX][maxY] == 1) { //Middle middle
+            neighbourCount++;
+        }
+        if ((*cell)[0][maxY] == 1) { //Middle right
+            neighbourCount++;
+        }
+        if ((*cell)[maxX - 1][0] == 1) { //Bottom left
+            neighbourCount++;
+        }
+        if ((*cell)[maxX][0] == 1) { //Bottom middle
+            neighbourCount++;
+        }
+        if ((*cell)[0][0] == 1) { //Bottom right
+            neighbourCount++;
+        }
+    }
+    //Border checks
+    if (i > 0 && i < maxX && j == 0) { //Top row
+        for (int x = -1;x < 1; x++) {
+            if ((*cell)[i + x][maxY] == 1) { //Top row
+                neighbourCount++;
+            }
+            if ((*cell)[i + x][j] == 1) { //Middle row
+                neighbourCount++;
+            }
+            if((*cell)[i + x][j + 1] == 1) { //Bottom row
+                neighbourCount++;
+            }
+        }
+    }
+    else if (i > 0 && i < maxX && j == maxY) { //Bottom row
+        for (int x = -1;x < 1; x++) {
+            if ((*cell)[i + x][j - 1] == 1) { //Top row
+                neighbourCount++;
+            }
+            if ((*cell)[i + x][j] == 1) { //Middle row
+                neighbourCount++;
+            }
+            if ((*cell)[i + x][0] == 1) { //Bottom row
+                neighbourCount++;
+            }
+        }
+    }
+    else if (i == 0 && j > 0 && j < maxY) { //Left column
+        for (int y = -1; y < 1; y++) {
+            if ((*cell)[maxX][j + y] == 1) { //Left column
+                neighbourCount++;
+            }
+            if ((*cell)[i][j + y] == 1) { //Middle column
+                neighbourCount++;
+            }
+            if ((*cell)[i + 1][j + y] == 1) { //Right column
+                neighbourCount++;
+            }
+        }
+    }
+    else if (i == maxX && j > 0 && j < maxY) { //Right column
+        for (int y = -1; y < 1; y ++) {
+            if ((*cell)[i - 1][j - 1] == 1) { //Left column
+                neighbourCount++;
+            }
+            if ((*cell)[i][j - 1] == 1) { //Middle column
+                neighbourCount++;
+            }
+            if ((*cell)[0][j - 1] == 1) { //Right column
+                neighbourCount++;
+            }
+        }
+    }
 
-    }
-    //BAD CODE BELOW
-    if (i == 0) {
-        //Left corner checks
-        if (j == 0) { //Top left corner
-            if ((*cell)[GRIDSIZEY - 1][GRIDSIZEX - 1] == 1) { //Top left
-                neighbourCount++;
-            }
-            if ((*cell)[GRIDSIZEY - 1][i] == 1) { //Top middle
-                neighbourCount++;
-            }
-            if ((*cell)[GRIDSIZEY - 1][i + 1] == 1) { //Top right
-                neighbourCount++;
-            }
-            if ((*cell)[j][GRIDSIZEX - 1] == 1) { //Middle left
-                neighbourCount++;
-            }
-            if ((*cell)[j][i] == 1) { //Middle middle
-                neighbourCount++;
-            }
-            if ((*cell)[j][i + 1] == 1) { //Middle right
-                neighbourCount++;
-            }
-            if ((*cell)[j + 1][GRIDSIZEX - 1] == 1) { //Bottom left
-                neighbourCount++;
-            }
-            if ((*cell)[j + 1][i] == 1) { //Bottom middle
-                neighbourCount++;
-            }
-            if ((*cell)[j + 1][i + 1] == 1) { //Bottom right
-                neighbourCount++;
-            }
-        }
-        else if (j == GRIDSIZEY - 1) { //Bottom left corner
-            if ((*cell[GRIDSIZEX - 1][j - 1] == 1) || (*cell[i][j - 1] == 1) || (*cell[i + 1][j - 1] == 1)) { //Top row
-                neighbourCount++;
-            }
-            if ((*cell[GRIDSIZEX - 1][j] == 1) || (*cell[i][j] == 1) || (*cell[i + 1][j] == 1)) { //Middle row
-                neighbourCount++;
-            }
-            if ((*cell[GRIDSIZEX - 1][0] == 1) || (*cell[i][0] == 1) || (*cell[i + 1][0] == 1)) { //Bottom row
-                neighbourCount++;
-            }
-        }
-        else { //Check along the top x border
-            for (int x = -1; x < 2; x++) {
-                if ((*cell)[GRIDSIZEY - 1][i + x] == 1) { //Checks top row - connected to bottom border
-                    neighbourCount++;
-                }
-                if ((*cell)[j][i + x] == 1) { //Checks middle row
-                    neighbourCount++;
-                }
-                if ((*cell)[j + 1][i + x] == 1) { //Checks bottom row
-                    neighbourCount++;
-                }
-            }
-        }
-    }
-    else if (i == GRIDSIZEX - 1) {
-        //Right corner check
-        if (j == 0) { //Top right corner
-            if ((*cell[GRIDSIZEY - 1][i - 1] == 1) || (*cell[GRIDSIZEY - 1][i] == 1) || (*cell[GRIDSIZEY - 1][0] == 1)) { //Top row
-                neighbourCount++;
-            }
-            if ((*cell[j][i - 1] == 1) || (*cell[j][i] == 1) || (*cell[j][0] == 1)) { //Middle row
-                neighbourCount++;
-            }
-            if ((*cell[i - 1][j + 1] == 1) || (*cell[i][j + 1] == 1) || (*cell[0][j + 1] == 1)) { //Bottom row
-                neighbourCount++;
-            }
-        }
-        else if (j == GRIDSIZEY - 1) { //Bottom right corner
-            if ((*cell[j - 1][i - 1] == 1) || (*cell[j - 1][i] == 1) || (*cell[j - 1][0] == 1)) { //Top row
-                neighbourCount++;
-            }
-            if ((*cell[j][i - 1] == 1) || (*cell[j][i] == 1) || (*cell[j][0] == 1)) { //Middle row
-                neighbourCount++;
-            }
-            if ((*cell[0][i - 1] == 1) || (*cell[0][i] == 1) || (*cell[0][0] == 1)) { //Bottom row
-                neighbourCount++;
-            }
-        }
-        else { //Check along the bottom x border
-            for (int x = -1; x < 2; x++) {
-                if ((*cell)[i + x][j - 1] == 1) { //Checks top row
-                    neighbourCount++;
-                }
-                if ((*cell)[i + x][j] == 1) { //Checks middle row
-                    neighbourCount++;
-                }
-                if ((*cell)[i + x][0] == 1) { //Checks bottom row - connected to top border
-                    neighbourCount++;
-                }
-
-            }
-        }
-    }
-    if (j == 0 && i > 0 && i < GRIDSIZEX - 1) { //Check along the Top row
-        for (int y = -1; y < 2; y++) {
-            if ((*cell)[j][GRIDSIZEX - 1 + y] == 1) { //Checks first column - connected to right border
-                neighbourCount++;
-            }
-            if ((*cell)[i][j + y] == 1) { //Checks middle column
-                neighbourCount++;
-            }
-            if ((*cell)[i + 1][j + y] == 1) { //Checks last column
-                neighbourCount++;
-            }
-
-        }
-    }
-    else if (j == 0 && i > 0 && i < GRIDSIZEX - 1) { //Check along the Right column
-        for (int y = -1; y < 2; y++) {
-            if ((*cell)[i - 1][j + y] == 1) { //Checks first column - connected to right border
-                neighbourCount++;
-            }
-            if ((*cell)[i][j + y] == 1) { //Checks middle column
-                neighbourCount++;
-            }
-            if ((*cell)[0][j + y] == 1) { //Checks last column
-                neighbourCount++;
-            }
-        }
-    }
-
-    //END OF BAD CODE
     if ((*cell)[i][j] == 1 ) {
         return neighbourCount - 1; //Don't count the middle cell
     }
@@ -219,11 +253,17 @@ void iterate_grid(int ***cell, int ***iteratedCell) {
         for (int i = 0; i < GRIDSIZEX - 1; i++) {
             for (int j = 0; j < GRIDSIZEY - 1; j++) { //Calculate every cell
                 if ((i > 0 && i < GRIDSIZEX - 1) && (j > 0 && j < GRIDSIZEY - 1)) { //Avoid edge cases they require different calculation
-                    set_cell(i, j, cell, iteratedCell, check_neighbours(i,j, cell)); //Set cell state
+                    set_cell(i, j, (int ***) cell, (int ***) iteratedCell, check_neighbours(i, j, (int ***) cell)); //Set cell state
                 }
                 else { //Check edge borders
-                    set_cell(i, j, cell, iteratedCell, edge_check_neighbours(i, j, cell)); //Set cell state
+                    set_cell(i, j, (int ***) cell, (int ***) iteratedCell, edge_check_neighbours(i, j, (int ***) cell)); //Set cell state
                 }
+            }
+        }
+        //Overwrite old grid values
+        for (int i = 0; i <= maxX; i++) {
+            for (int j = 0; j <= maxY; j++) {
+                G.cell[i][j] = G1.cell[i][j];
             }
         }
     }
@@ -244,8 +284,10 @@ void cleanup_memory() {
 //Setup the game engine
 void initialise_engine() {
     PAUSE = false; //Initial state is not paused
-    G.sizeX = G1.sizeX = (GRIDSIZEX - 1); //Grid X size starting from 0
-    G.sizeY = G1.sizeY = (GRIDSIZEY - 1); //Grid Y size starting from 0
+    G.sizeX = G1.sizeX = GRIDSIZEX; //Grid X size starting from 0
+    G.sizeY = G1.sizeY = GRIDSIZEY; //Grid Y size starting from 0
+    maxX = GRIDSIZEX - 1;
+    maxY = GRIDSIZEY - 1;
     initialise_grid(&G.cell, G.sizeX, G.sizeY);
     initialise_grid(&G1.cell, G1.sizeX, G1.sizeY);
     initialise_display(&G.cell);
@@ -254,8 +296,10 @@ void initialise_engine() {
 
 //Setup static environment
 void initialise_static_environment() {
-    G.sizeX = G1.sizeX = GRIDSIZEX - 1; //Grid X size
-    G.sizeY = G1.sizeY = GRIDSIZEY - 1; //Grid Y size
+    G.sizeX = G1.sizeX = GRIDSIZEX; //Grid X size
+    G.sizeY = G1.sizeY = GRIDSIZEY; //Grid Y size
+    maxX = GRIDSIZEX - 1;
+    maxY = GRIDSIZEY - 1;
     initialise_grid(&G.cell,G.sizeX, G.sizeY);
     initialise_display(&G.cell);
 }

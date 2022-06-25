@@ -20,7 +20,7 @@ int menu() { //Main menu
     bool quit = false;
     //Menu loop
     do {
-        answer = (char *) malloc(3*sizeof(char)); //Allocate 3 chars of memory to pointer
+        answer = (char *) malloc(sizeof(char) * 3); //Allocate 3 chars of memory to pointer
         printf("Select an option\n1. Start\n2. Modify config\n3. Quit\n");
         fflush(stdin); //Clear input buffer
         response = atoi(fgets(answer, 3 * sizeof(char), stdin)); //Get int from input
@@ -28,12 +28,11 @@ int menu() { //Main menu
         switch(response) {
             case 1: //Start with default settings
                 printf("Starting...\n");
-                //TODO Call initialise game function
                 initialise_engine();
                 printf("Finished.\n");
                 break;
             case 2: //Change settings
-                answer = (char *) malloc(3 * sizeof(char));
+                answer = (char *) malloc(sizeof(char) * 3);
                 printf("Which setting do you want to change?\n1. Grid Size\n2. Initial State\n3. File Location\n4. Iteration Speed\n5. Reset to default\n6. Save settings\n7. Load settings\n8. List settings\n0. Back\n");
                 fflush(stdin);
                 response = atoi(fgets(answer, 3 * sizeof(char), stdin));
