@@ -34,8 +34,8 @@ void display_grid() {
 
 //Show live cells on grid
 void display_live_cells(int ***cell) {
-    for (int i = 0; i < GRIDSIZEX - 1; i++){
-        for (int j = 0; j < GRIDSIZEY - 1; j++ ){
+    for (int i = 0; i < GRIDSIZEX; i++){
+        for (int j = 0; j < GRIDSIZEY; j++ ){
             SDL_Rect rect;
             rect.w = CELL_SIZE - 1;
             rect.h = CELL_SIZE - 1;
@@ -54,13 +54,9 @@ void display_live_cells(int ***cell) {
 }
 
 //Update the display
-void update_display(int ***cell) {
+void update_display() {
     int mouseX, mouseY;
     while(Dp.running) {
-        if (!PAUSE){
-            iterate_grid(&G.cell, &G1.cell);
-        }
-        display_live_cells(&G.cell); //Creates live cells from the grid G.cell
         //Event detection
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
@@ -85,12 +81,13 @@ void update_display(int ***cell) {
                     }
                     break;
                 case SDL_WINDOWEVENT:
-                    if (event.window.event == SDL_WINDOWEVENT_ENTER){
+                    //This handles cursor leaving and moving back over window
+                    /* if (event.window.event == SDL_WINDOWEVENT_ENTER){
                         PAUSE = false;
                     }
                     else if (event.window.event == SDL_WINDOWEVENT_LEAVE){
                         PAUSE = true;
-                    }
+                    }*/
                     break;
                 case SDL_QUIT:
                     Dp.running = false;
@@ -100,6 +97,10 @@ void update_display(int ***cell) {
                 default:break;
             }
         }
+        if (!PAUSE){
+            iterate_grid(&G.cell, &G1.cell);
+        }
+        display_live_cells(&G.cell); //Creates live cells from the grid G.cell
         SDL_Delay(ITERATETIME);
         SDL_RenderPresent(Dp.renderer); //Render to the window
     }
@@ -118,11 +119,11 @@ int initialise_display(int ***cell) {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Error creating display : %s", SDL_GetError());
         return 0;
     }
+    Dp.running = true;
     SDL_SetWindowTitle(Dp.window, "Conway's Game of life in C - Written by Jen"); //Set Title of the window
     colour_background(); //set colour of the background
     display_grid(); //Show the grid
-    Dp.running = true;
-    update_display(&G.cell);
+    update_display();
     if (Dp.running == false) {
         //Quit SDL subsystems
         SDL_Quit();

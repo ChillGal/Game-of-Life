@@ -24,7 +24,6 @@ int initialise_grid(int ***cell, int SizeX, int SizeY) {
     for (int i = 0; i < SizeX; i++) {
         (*cell)[i] = (int *)malloc(sizeof(int) * SizeY); //Allocate memory to horizontal rows
         if ((*cell)[i] == NULL){
-            printf("FAIL %d\n", i);
             free(cell);
             printf("Error occurred allocating memory to horizontal rows.\n");
             return 1;
@@ -34,7 +33,6 @@ int initialise_grid(int ***cell, int SizeX, int SizeY) {
     for (int x = 0; x < SizeX; x++){
         for (int y = 0; y < SizeY; y++) {
             (*cell)[x][y] = 0;
-            //printf("%d,%d, %d \n",x,y, *cell[x][0]);
         }
     }
     return 0;
@@ -43,14 +41,14 @@ int initialise_grid(int ***cell, int SizeX, int SizeY) {
 //Check number of neighbours around a given cell excluding the edges of the grid
 int check_neighbours(int i, int j,int ***cell) {
     int neighbourCount = 0;
-    for (int x = -1; x < 1; x++) { //Counting live neighbours around cell coordinate
-        for (int y = -1; y < 1; y++) {
-            if ((*cell)[j + y][i + x] == 1) {
+    for (int x = -1; x < 2; x++) { //Counting live neighbours around cell coordinate
+        for (int y = -1; y < 2; y++) {
+            if ((*cell)[i + x][j + y] == 1) {
                 neighbourCount++;
             }
         }
     }
-    if ((*cell)[i][j] == 1 ) {
+    if ((*cell)[i][j] == 1) {
         return neighbourCount - 1; //Don't count the middle cell
     }
     return neighbourCount;
@@ -178,7 +176,7 @@ int edge_check_neighbours(int i, int j, int ***cell) {
     }
     //Border checks
     if (i > 0 && i < maxX && j == 0) { //Top row
-        for (int x = -1;x < 1; x++) {
+        for (int x = -1;x < 2; x++) {
             if ((*cell)[i + x][maxY] == 1) { //Top row
                 neighbourCount++;
             }
@@ -191,7 +189,7 @@ int edge_check_neighbours(int i, int j, int ***cell) {
         }
     }
     else if (i > 0 && i < maxX && j == maxY) { //Bottom row
-        for (int x = -1;x < 1; x++) {
+        for (int x = -1;x < 2; x++) {
             if ((*cell)[i + x][j - 1] == 1) { //Top row
                 neighbourCount++;
             }
@@ -204,7 +202,7 @@ int edge_check_neighbours(int i, int j, int ***cell) {
         }
     }
     else if (i == 0 && j > 0 && j < maxY) { //Left column
-        for (int y = -1; y < 1; y++) {
+        for (int y = -1; y < 2; y++) {
             if ((*cell)[maxX][j + y] == 1) { //Left column
                 neighbourCount++;
             }
@@ -217,7 +215,7 @@ int edge_check_neighbours(int i, int j, int ***cell) {
         }
     }
     else if (i == maxX && j > 0 && j < maxY) { //Right column
-        for (int y = -1; y < 1; y ++) {
+        for (int y = -1; y < 2; y ++) {
             if ((*cell)[i - 1][j - 1] == 1) { //Left column
                 neighbourCount++;
             }
@@ -229,7 +227,6 @@ int edge_check_neighbours(int i, int j, int ***cell) {
             }
         }
     }
-
     if ((*cell)[i][j] == 1 ) {
         return neighbourCount - 1; //Don't count the middle cell
     }
@@ -237,7 +234,7 @@ int edge_check_neighbours(int i, int j, int ***cell) {
 }
 
 //Set the cell value according to the rules
-void set_cell(int i,int j, int ***cell,int ***iteratedCell,int neighbours) {
+void set_cell(int i,int j, int ***cell, int ***iteratedCell, int neighbours) {
     if ((neighbours == 2 || neighbours == 3) && (*cell)[i][j] == 1) { //Any live cell with two or three live neighbours survives
         (*iteratedCell)[i][j] = 1; //Set the cell state for the iteration
     }
@@ -250,20 +247,22 @@ void set_cell(int i,int j, int ***cell,int ***iteratedCell,int neighbours) {
 //Calculate the next step of the grid
 void iterate_grid(int ***cell, int ***iteratedCell) {
     if (!PAUSE) { //As long as not paused
-        for (int i = 0; i < GRIDSIZEX - 1; i++) {
-            for (int j = 0; j < GRIDSIZEY - 1; j++) { //Calculate every cell
+        for (int i = 0; i < GRIDSIZEX; i++) {
+            for (int j = 0; j < GRIDSIZEY; j++) { //Calculate every cell
                 if ((i > 0 && i < GRIDSIZEX - 1) && (j > 0 && j < GRIDSIZEY - 1)) { //Avoid edge cases they require different calculation
-                    set_cell(i, j, (int ***) cell, (int ***) iteratedCell, check_neighbours(i, j, (int ***) cell)); //Set cell state
+                    set_cell(i, j, cell, iteratedCell, check_neighbours(i, j, cell)); //Set cell state
                 }
                 else { //Check edge borders
-                    set_cell(i, j, (int ***) cell, (int ***) iteratedCell, edge_check_neighbours(i, j, (int ***) cell)); //Set cell state
+                    set_cell(i, j, cell, iteratedCell, edge_check_neighbours(i, j, cell)); //Set cell state
                 }
             }
         }
         //Overwrite old grid values
-        for (int i = 0; i <= maxX; i++) {
-            for (int j = 0; j <= maxY; j++) {
-                G.cell[i][j] = G1.cell[i][j];
+        for (int i = 0; i < GRIDSIZEX; i++) {
+            for (int j = 0; j < GRIDSIZEY; j++) {
+                if ((G.cell)[i][j] != (G1.cell)[i][j]){
+                    (G.cell)[i][j] = (G1.cell)[i][j];
+                }
             }
         }
     }
