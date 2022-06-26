@@ -216,13 +216,13 @@ int edge_check_neighbours(int i, int j, int ***cell) {
     }
     else if (i == maxX && j > 0 && j < maxY) { //Right column
         for (int y = -1; y < 2; y ++) {
-            if ((*cell)[i - 1][j - 1] == 1) { //Left column
+            if ((*cell)[i - 1][j + y] == 1) { //Left column
                 neighbourCount++;
             }
-            if ((*cell)[i][j - 1] == 1) { //Middle column
+            if ((*cell)[i][j + y] == 1) { //Middle column
                 neighbourCount++;
             }
-            if ((*cell)[0][j - 1] == 1) { //Right column
+            if ((*cell)[0][j + y] == 1) { //Right column
                 neighbourCount++;
             }
         }
@@ -238,9 +238,10 @@ void set_cell(int i,int j, int ***cell, int ***iteratedCell, int neighbours) {
     if ((neighbours == 2 || neighbours == 3) && (*cell)[i][j] == 1) { //Any live cell with two or three live neighbours survives
         (*iteratedCell)[i][j] = 1; //Set the cell state for the iteration
     }
-    if (neighbours == 3 && (*cell)[i][j] == 0) { //Any dead cell with three live neighbours becomes a live cell
+    else if (neighbours == 3 && (*cell)[i][j] == 0) { //Any dead cell with three live neighbours becomes a live cell
         (*iteratedCell)[i][j] = 1;
     }
+    else {(*iteratedCell)[i][j] = 0;}
     //Default cell state is dead so no need to set them in the iterated grid
 }
 
@@ -260,7 +261,7 @@ void iterate_grid(int ***cell, int ***iteratedCell) {
         //Overwrite old grid values
         for (int i = 0; i < GRIDSIZEX; i++) {
             for (int j = 0; j < GRIDSIZEY; j++) {
-                if ((G.cell)[i][j] != (G1.cell)[i][j]){
+                if ((G.cell)[i][j] != (G1.cell)[i][j]) {
                     (G.cell)[i][j] = (G1.cell)[i][j];
                 }
             }
