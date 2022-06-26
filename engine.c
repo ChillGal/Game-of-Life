@@ -261,7 +261,7 @@ void iterate_grid(int ***cell, int ***iteratedCell) {
         //Overwrite old grid values
         for (int i = 0; i < GRIDSIZEX; i++) {
             for (int j = 0; j < GRIDSIZEY; j++) {
-                if ((G.cell)[i][j] != (G1.cell)[i][j]) {
+                if ((G.cell)[i][j] != (G1.cell)[i][j]) { //Reduce number of writes
                     (G.cell)[i][j] = (G1.cell)[i][j];
                 }
             }
@@ -277,6 +277,10 @@ void destroy_grid(int ***cell) {
 
 //Clear allocated memory of the grids
 void cleanup_memory() {
+    for (int i = 0; i < GRIDSIZEX; i++) {
+        free((G.cell)[i]);
+        free((G1.cell)[i]);
+    }
     free(&G.cell); //Clear main grid memory
     free(&G1.cell); //Clear iterative grid memory
 }
@@ -291,7 +295,6 @@ void initialise_engine() {
     initialise_grid(&G.cell, G.sizeX, G.sizeY);
     initialise_grid(&G1.cell, G1.sizeX, G1.sizeY);
     initialise_display(&G.cell);
-    //cleanup_memory(); //Cleanup allocated memory after display exited
 }
 
 //Setup static environment

@@ -100,6 +100,7 @@ int menu() { //Main menu
                 break;
             case 3: //Quit
                 quit = true;
+                cleanup_memory(); //Cleanup allocated memory after display exited
                 break;
             default:
                 printf("Not a valid option. \n");
