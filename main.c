@@ -68,6 +68,8 @@ int menu() { //Main menu
                     case 5: //Reset to default parameters
                         GRIDSIZEX = 160;
                         GRIDSIZEY = 90;
+                        maxX = GRIDSIZEX - 1;
+                        maxY = GRIDSIZEY -1;
                         ITERATETIME = 10;
                         PAUSE = false;
                         printf("Parameters have been reset!\n");

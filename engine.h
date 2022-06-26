@@ -1,7 +1,7 @@
 #ifndef GAMEOFLIFE_ENGINE_H
 #define GAMEOFLIFE_ENGINE_H
 
-extern int GRIDSIZEX, GRIDSIZEY;
+extern int GRIDSIZEX, GRIDSIZEY, maxX, maxY;
 extern int ITERATETIME; //Time between iterations
 extern _Bool PAUSE; //Pause state
 extern struct grid G;
