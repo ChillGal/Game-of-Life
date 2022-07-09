@@ -9,6 +9,7 @@ int GRIDSIZEX = 160; //Grid X size
 int GRIDSIZEY = 90; //Grid Y size
 int maxX = 159;
 int maxY = 89;
+int infinite = 1; //Default is infinite borders
 int ITERATETIME = 10; //Time between iterations in ms
 bool PAUSE = false; //Pause state
 struct grid G; //Main grid
@@ -55,7 +56,7 @@ int check_neighbours(int i, int j,int ***cell) {
 }
 
 //Check the edges of the grid with toroidal shape (donut shape)
-int edge_check_neighbours(int i, int j, int ***cell) {
+int infinite_edge_check_neighbours(int i, int j, int ***cell) {
     int neighbourCount = 0;
     //Corner checks
     if (i == 0 && j == 0) { //Top left corner
@@ -233,6 +234,67 @@ int edge_check_neighbours(int i, int j, int ***cell) {
     return neighbourCount;
 }
 
+int restricted_edge_check_neighbours(int i, int j, int ***cell) {
+    int neighbourCount = 0;
+    //Corner checks
+    if (i == 0 && j == 0) { //Top left corner
+        if ((*cell)[0][0] == 1) { //Middle middle
+            neighbourCount++;
+        }
+        if ((*cell)[1][0] == 1) { //Middle middle
+            neighbourCount++;
+        }
+        if ((*cell)[0][1] == 1) { //Bottom middle
+            neighbourCount++;
+        }
+        if ((*cell)[1][1] == 1) { //Bottom right
+            neighbourCount++;
+        }
+    }
+    else if (i == 0 && j == maxY) { //Bottom left
+        if ((*cell)[0][maxY - 1] == 1) { //Top middle
+            neighbourCount++;
+        }
+        if ((*cell)[1][maxY - 1] == 1) { //Top right
+            neighbourCount++;
+        }
+        if ((*cell)[0][maxY] == 1) { //Middle middle
+            neighbourCount++;
+        }
+        if ((*cell)[1][maxY] == 1) { //Middle right
+            neighbourCount++;
+        }
+    }
+    else if (i == maxX && j == 0) { //Top right
+        if ((*cell)[maxX - 1][0] == 1) { //Middle left
+            neighbourCount++;
+        }
+        if ((*cell)[maxX][0] == 1) { //Middle middle
+            neighbourCount++;
+        }
+        if ((*cell)[maxX - 1][1] == 1) { //Bottom left
+            neighbourCount++;
+        }
+        if ((*cell)[maxX][1] == 1) { //Bottom middle
+            neighbourCount++;
+        }
+    }
+    else if (i == maxX && j == maxY) { //Bottom right
+        if ((*cell)[maxX - 1][maxY - 1] == 1) { //Top left
+            neighbourCount++;
+        }
+        if ((*cell)[maxX][maxY - 1] == 1) { //Top middle
+            neighbourCount++;
+        }
+        if ((*cell)[maxX - 1][maxY] == 1) { //Middle left
+            neighbourCount++;
+        }
+        if ((*cell)[maxX][maxY] == 1) { //Middle middle
+            neighbourCount++;
+        }
+    }
+    return neighbourCount;
+}
 //Set the cell value according to the rules
 void set_cell(int i,int j, int ***cell, int ***iteratedCell, int neighbours) {
     if ((neighbours == 2 || neighbours == 3) && (*cell)[i][j] == 1) { //Any live cell with two or three live neighbours survives
@@ -254,7 +316,12 @@ void iterate_grid(int ***cell, int ***iteratedCell) {
                     set_cell(i, j, cell, iteratedCell, check_neighbours(i, j, cell)); //Set cell state
                 }
                 else { //Check edge borders
-                    set_cell(i, j, cell, iteratedCell, edge_check_neighbours(i, j, cell)); //Set cell state
+                    if (infinite == 1) {
+                        set_cell(i, j, cell, iteratedCell, infinite_edge_check_neighbours(i, j, cell)); //Set cell state
+                    }
+                    else {
+                        set_cell(i, j, cell, iteratedCell, restricted_edge_check_neighbours(i, j, cell)); //Set cell state
+                    }
                 }
             }
         }

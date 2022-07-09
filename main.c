@@ -15,7 +15,7 @@
 int menu() { //Main menu
     printf("Conway's game of life in C\n");
     char *answer;
-    char pauseBool[6];
+    char pauseBool[6], charInfinite[12];
     int response;
     bool quit = false;
     //Menu loop
@@ -33,7 +33,19 @@ int menu() { //Main menu
                 break;
             case 2: //Change settings
                 answer = (char *) malloc(sizeof(char) * 3);
-                printf("Which setting do you want to change?\n1. Grid Size\n2. Initial State\n3. File Location\n4. Iteration Speed\n5. Reset to default\n6. Save settings\n7. Load settings\n8. List settings\n0. Back\n");
+                printf("Which setting do you want to change?\n"); //Printf split for readability
+                printf("%-3s %-10s\n", "1.", "Grid Size");
+                printf("%-3s %-10s\n", "2.", "Initial State");
+                printf("%-3s %-10s\n", "3.", "File Location");
+                printf("%-3s %-10s\n", "4.", "Iteration Speed");
+                printf("%-3s %-10s\n", "5.", "Reset to default");
+                printf("%-3s %-10s\n", "6.", "Save settings");
+                printf("%-3s %-10s\n", "7.", "Load settings");
+                printf("%-3s %-10s\n", "8.", "List settings");
+                printf("%-3s %-10s\n", "9.", "Save game");
+                printf("%-3s %-10s\n", "10.", "Load game");
+                printf("%-3s %-10s\n", "11.", "Grid border");
+                printf("%-3s %-10s\n", "0.", "Back");
                 fflush(stdin);
                 response = atoi(fgets(answer, 3 * sizeof(char), stdin));
                 free(answer);
@@ -82,10 +94,16 @@ int menu() { //Main menu
                         break;
                     case 8: //List current settings
                         if (PAUSE == 0) {
-                            strcpy(pauseBool, "false");
+                            strcpy(pauseBool, "False");
                         }
                         else {
-                            strcpy(pauseBool, "true");
+                            strcpy(pauseBool, "True");
+                        }
+                        if (infinite == 0) {
+                            strcpy(charInfinite, "Infinite");
+                        }
+                        else {
+                            strcpy(charInfinite, "Restricted");
                         }
                         printf("Current settings\n");
                         printf("%-15s | %-10s\n", "Setting", "Value");
@@ -93,6 +111,44 @@ int menu() { //Main menu
                         printf("%-15s | %-10d\n", "Height", GRIDSIZEY);
                         printf("%-15s | %-10d\n", "Iteration time", ITERATETIME);
                         printf("%-15s | %-10s\n", "Pause state", pauseBool);
+                        printf("%-15s | %-10s\n", "Grid border", charInfinite);
+                        break;
+                    case 9: //Save game
+                        save_game();
+                        break;
+                    case 10: //Load game
+                    load_game();
+                        break;
+                    case 11: //Toggle infinity grid
+                        printf("Current grid border setting is: ");
+                        if (infinite == 1) {
+                            printf("Infinite\n");
+                        }
+                        else if (infinite == 0) {
+                            printf("Restricted\n");
+                        }
+                        printf("Do you want to change the grid border? y/n\n");
+                        fflush(stdin);
+                        answer = malloc(sizeof (char) * 5);
+                        fgets(answer,sizeof response, stdin); //Get input
+                        if (strcmp(answer, "n\n") == 0 || strcmp(answer,"y\n") == 0) {
+                            if (strcmp(answer, "n\n") == 0) {
+                                printf("Grid border not changed. \n");
+                                free(answer);
+                                return 0;
+                            }
+                            printf("Grid border changed\n");
+                            if (infinite == 0){
+                                infinite = 1;
+                            }
+                            else if (infinite == 1) {
+                                infinite = 0;
+                            }
+                        }
+                        else {
+                            printf("Invalid response. \n");
+                            free(answer);
+                        }
                         break;
                     default:
                         printf("Not a valid option. \n");

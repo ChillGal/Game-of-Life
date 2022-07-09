@@ -20,3 +20,4 @@ This was originally a task for a coursework but i have rewritten the code with e
 - Clearing the state
 - Display generation information in window at same time as grid
 - Toggle infinite border
+- Random Generation
