@@ -293,8 +293,53 @@ int restricted_edge_check_neighbours(int i, int j, int ***cell) {
             neighbourCount++;
         }
     }
+    //Border checks
+    if (i > 0 && i < maxX && j == 0) { //Top row
+        for (int x = -1;x < 2; x++) {
+            if ((*cell)[i + x][j] == 1) { //Middle row
+                neighbourCount++;
+            }
+            if((*cell)[i + x][j + 1] == 1) { //Bottom row
+                neighbourCount++;
+            }
+        }
+    }
+    else if (i > 0 && i < maxX && j == maxY) { //Bottom row
+        for (int x = -1;x < 2; x++) {
+            if ((*cell)[i + x][j - 1] == 1) { //Top row
+                neighbourCount++;
+            }
+            if ((*cell)[i + x][j] == 1) { //Middle row
+                neighbourCount++;
+            }
+        }
+    }
+    else if (i == 0 && j > 0 && j < maxY) { //Left column
+        for (int y = -1; y < 2; y++) {
+            if ((*cell)[i][j + y] == 1) { //Middle column
+                neighbourCount++;
+            }
+            if ((*cell)[i + 1][j + y] == 1) { //Right column
+                neighbourCount++;
+            }
+        }
+    }
+    else if (i == maxX && j > 0 && j < maxY) { //Right column
+        for (int y = -1; y < 2; y ++) {
+            if ((*cell)[i - 1][j + y] == 1) { //Left column
+                neighbourCount++;
+            }
+            if ((*cell)[i][j + y] == 1) { //Middle column
+                neighbourCount++;
+            }
+        }
+    }
+    if ((*cell)[i][j] == 1 ) {
+        return neighbourCount - 1; //Don't count the middle cell
+    }
     return neighbourCount;
 }
+
 //Set the cell value according to the rules
 void set_cell(int i,int j, int ***cell, int ***iteratedCell, int neighbours) {
     if ((neighbours == 2 || neighbours == 3) && (*cell)[i][j] == 1) { //Any live cell with two or three live neighbours survives
