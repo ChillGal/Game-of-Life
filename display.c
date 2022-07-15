@@ -92,7 +92,6 @@ void update_display() {
                 case SDL_QUIT:
                     Dp.running = false;
                     cleanup_display();
-                    cleanup_memory();
                     break;
                 default:break;
             }
